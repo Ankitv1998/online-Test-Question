@@ -1,0 +1,711 @@
+******************************************************************************************************************************************
+Merge SOrt
+******************************************************************************************************************************************
+
+public class Solution { 
+    public static void merge(int a2[], int a3[], int a[]) {
+        int m = a2.length;
+        int n = a3.length;
+        int i = 0;
+        int j = 0;
+        int k = 0;
+
+        while (i < m && j < n) {
+            if (a2[i] <= a3[j]) {
+                a[k] = a2[i];
+                i++;
+                k++;
+            } else {
+                a[k] = a3[j];
+                j++;
+                k++;
+            }
+        }
+
+        while (i < m) {
+            a[k] = a2[i];
+            i++;
+            k++; 
+        }
+
+        while (j < n) {
+            a[k] = a3[j];
+            j++;
+            k++;
+        }
+    }
+
+    public static void mergesort(int a1[]) {
+        if (a1.length <= 1) {
+            return;
+        }
+        int a2[] = new int[a1.length / 2];
+        int a3[] = new int[a1.length - a2.length];
+        for (int i = 0; i < a1.length / 2; i++) {
+            a2[i] = a1[i];
+        }
+        for (int i = a1.length / 2; i < a1.length; i++) {
+            a3[i - a1.length / 2] = a1[i];
+        }
+        mergesort(a2);
+        mergesort(a3);
+        merge(a2, a3, a1);
+    }
+
+    public static void mergeSort(int[] arr, int l, int r) {
+        if (l < r) {
+            int m = (l + r) / 2;
+            mergeSort(arr, l, m);
+            mergeSort(arr, m + 1, r);
+            int a[] = new int[r - l + 1];
+            for (int i = l; i <= r; i++) {
+                a[i - l] = arr[i];
+            }
+            mergesort(a);
+            for (int i = l; i <= r; i++) {
+                arr[i] = a[i - l];
+            }
+        }
+    }
+}
+
+
+******************************************************************************************************************************************
+Factors
+******************************************************************************************************************************************
+
+import java.util.Scanner;
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+
+        printFactors(n);
+    }
+
+    public static void printFactors(int n) {
+        int count = 0;
+        for (int i = 2; i < n; i++) {
+            if (n % i == 0) {
+                System.out.print(i + " ");
+                count++;
+            }
+        }
+
+        if (count == 0) {
+            System.out.println(-1);
+        }
+    }
+}
+
+
+
+
+******************************************************************************************************************************************
+import java.util.Scanner;
+******************************************************************************************************************************************
+
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+
+        if (n <= 1) {
+            System.out.println(-1);
+        } else {
+            for (int i = 2; i < n; i++) {
+                if (n % i == 0) {
+                    System.out.print(i + " ");
+                }
+            }
+        }
+
+        scanner.close();
+    }
+}
+
+******************************************************************************************************************************************
+Multiple Floating Number
+******************************************************************************************************************************************
+
+
+public class Solution {
+public static void multiplyFloatingNumbers(double f1, double f2) {
+// Calculate the product of the two floating numbers
+double product = f1 * f2;
+
+
+    // Print the product with 6 decimal places
+    System.out.printf("%.6f\n", product);
+}
+}
+
+
+******************************************************************************************************************************************
+Runner Median
+******************************************************************************************************************************************
+
+
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+public class Solution {
+
+    public static void findMedian(int arr[]) {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        for (int i = 0; i < arr.length; i++) {
+            if (maxHeap.isEmpty() || arr[i] < maxHeap.peek()) {
+                maxHeap.offer(arr[i]);
+            } else {
+                minHeap.offer(arr[i]);
+            }
+
+            if (maxHeap.size() - minHeap.size() > 1) {
+                minHeap.offer(maxHeap.poll());
+            } else if (minHeap.size() - maxHeap.size() > 0) {
+                maxHeap.offer(minHeap.poll());
+            }
+
+            if (i % 2 == 0) {
+                System.out.print(maxHeap.peek() + " ");
+            } else {
+                int median = (maxHeap.peek() + minHeap.peek()) / 2;
+                System.out.print(median + " ");
+            }
+        }
+    }
+}
+
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+Return Keypad Type
+******************************************************************************************************************************************
+
+public class solution {
+    public static String[] keypad(int n) {
+        if (n == 0 || n == 1) {
+            String[] ans = {""};
+            return ans;
+        }
+        int newN = n % 10;
+        String[] ans = keypad(n / 10);
+        String helpans = helper(newN);
+        String[] finalans = new String[helpans.length() * ans.length];
+        int k = 0;
+        for (int i = 0; i < ans.length; i++) {
+            for (int j = 0; j < helpans.length(); j++) {
+                finalans[k] = ans[i] + helpans.charAt(j);
+                k++;
+            }
+        }
+        return finalans;
+    }
+
+    private static String helper(int newN) {
+        if (newN == 2)
+            return "abc";
+        if (newN == 3)
+            return "def";
+        if (newN == 4)
+            return "ghi";
+        if (newN == 5)
+            return "jkl";
+        if (newN == 6)
+            return "mno";
+        if (newN == 7)
+            return "pqrs";
+        if (newN == 8)
+            return "tuv";
+        if (newN == 9)
+            return "wxyz";
+        else
+            return "";
+    }
+}
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+Interview Question common characters
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+Common part of character
+******************************************************************************************************************************************
+
+
+public class CommonCharactersFinder {
+    public static void main(String[] args) {
+        String s1 = "ABCDEF";
+        String s2 = "DEFXYZ";
+
+        findCommonCharacters(s1, s2);
+    }
+
+    private static void findCommonCharacters(String s1, String s2) {
+        StringBuilder commonCharacters = new StringBuilder();
+
+        for (char c1 : s1.toCharArray()) {
+            for (char c2 : s2.toCharArray()) {
+                if (c1 == c2) {
+                    commonCharacters.append(c1);
+                    break;
+                }
+            }
+        }
+
+        System.out.println("Common characters: " + commonCharacters.toString());
+    }
+}
+ 
+******************************************************************************************************************************************
+Count of common character
+******************************************************************************************************************************************
+
+
+public class CommonCharactersCounter {
+    public static void main(String[] args) {
+        String s1 = "ABCDEF";
+        String s2 = "DEFXYZ";
+
+        int commonCount = countCommonCharacters(s1, s2);
+        System.out.println("Count of common characters: " + commonCount);
+    }
+
+    private static int countCommonCharacters(String s1, String s2) {
+        int commonCount = 0;
+
+        for (char c1 : s1.toCharArray()) {
+            for (char c2 : s2.toCharArray()) {
+                if (c1 == c2) {
+                    commonCount++;
+                    break;
+                }
+            }
+        }
+
+        return commonCount;
+    }
+}
+
+******************************************************************************************************************************************
+2nd method of common character:
+******************************************************************************************************************************************
+
+
+public class CommonCharactersCounter {
+    public static void main(String[] args) {
+        String s1 = "ABCDEF";
+        String s2 = "DEFXYZ";
+
+        int commonCount = countCommonCharacters(s1, s2);
+        System.out.println("Count of common characters: " + commonCount);
+    }
+
+    private static int countCommonCharacters(String s1, String s2) {
+        int commonCount = 0;
+
+        for (int i = 0; i < s1.length(); i++) {
+            if (s2.contains(String.valueOf(s1.charAt(i)))) {
+                commonCount++;
+            }
+        }
+
+        return commonCount;
+    }
+}
+
+******************************************************************************************************************************************
+Check Number sequence
+******************************************************************************************************************************************
+
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        int prev = s.nextInt();
+        int count = 2;
+        boolean isDec = true;
+        boolean isInc = false;
+
+        while (count <= n) {
+            int current = s.nextInt();
+            count++;
+
+            if (current == prev) {
+                System.out.print("false");
+                return;
+            }
+
+            if (current > prev && isDec) {
+                isInc = true;
+            } else if (current < prev && isInc) {
+                System.out.print("false");
+                return;
+            } else if (current > prev) {
+                isDec = false;
+            } else if (current < prev && !isDec) {
+                System.out.print("false");
+                return;
+            }
+
+            prev = current;
+        }
+
+        System.out.print("true");
+    }
+}
+
+******************************************************************************************************************************************
+Remove Min
+******************************************************************************************************************************************
+import java.util.ArrayList;
+
+public class PQ {
+
+    private ArrayList<Integer> heap;
+
+    public PQ() {
+        heap = new ArrayList<Integer>();
+    }
+
+    boolean isEmpty() {
+        return heap.size() == 0;
+    }
+
+    int size() {
+        return heap.size();
+    }
+
+    int getMin() throws PriorityQueueException {
+        if (isEmpty()) {
+            throw new PriorityQueueException();
+        }
+        return heap.get(0);
+    }
+
+    void insert(int element) {
+        heap.add(element);
+        int childIndex = heap.size() - 1;
+        int parentIndex = (childIndex - 1) / 2;
+
+        while (childIndex > 0) {
+            if (heap.get(childIndex) < heap.get(parentIndex)) {
+                int temp = heap.get(childIndex);
+                heap.set(childIndex, heap.get(parentIndex));
+                heap.set(parentIndex, temp);
+                childIndex = parentIndex;
+                parentIndex = (childIndex - 1) / 2;
+            } else {
+                return;
+            }
+        }
+    }
+
+    int removeMin() throws PriorityQueueException {
+        if (isEmpty()) {
+            throw new PriorityQueueException();
+        }
+        
+        int minElement = heap.get(0);
+        int lastIndex = heap.size() - 1;
+        heap.set(0, heap.get(lastIndex));
+        heap.remove(lastIndex);
+
+        int parentIndex = 0;
+        int leftChildIndex = 2 * parentIndex + 1;
+        int rightChildIndex = 2 * parentIndex + 2;
+
+        while (leftChildIndex < heap.size()) {
+            int minIndex = parentIndex;
+
+            if (heap.get(leftChildIndex) < heap.get(minIndex)) {
+                minIndex = leftChildIndex;
+            }
+
+            if (rightChildIndex < heap.size() && heap.get(rightChildIndex) < heap.get(minIndex)) {
+                minIndex = rightChildIndex;
+            }
+
+            if (minIndex == parentIndex) {
+                break;
+            }
+
+            int temp = heap.get(parentIndex);
+            heap.set(parentIndex, heap.get(minIndex));
+            heap.set(minIndex, temp);
+
+            parentIndex = minIndex;
+            leftChildIndex = 2 * parentIndex + 1;
+            rightChildIndex = 2 * parentIndex + 2;
+        }
+
+        return minElement;
+    }
+}
+
+class PriorityQueueException extends Exception {
+}
+
+
+
+******************************************************************************************************************************************
+Longest common sequences
+******************************************************************************************************************************************
+
+
+import java.util.Arrays;
+
+public class Solution {
+    public static int lcs(String str1, String str2) {
+        int[][] dp = new int[str1.length()][str2.length()];
+
+        // Fill the dp Array with -1 which signifies none of the states have been computed.
+        for (int i = 0; i < str1.length(); i++) {
+            Arrays.fill(dp[i], -1);
+        }
+
+        return lcsHelper(str1, str1.length(), str2, str2.length(), dp);
+    }
+
+    private static int lcsHelper(String str1, int n, String str2, int m, int[][] dp) {
+        // If the length of first string is zero, we don't have any common subsequence
+        if (m == 0) {
+            return 0;
+        }
+
+        // If the length of second string is zero, we don't have any common subsequence
+        if (n == 0) {
+            return 0;
+        }
+
+        // If already computed the answer for this state, we simply return it.
+        if (dp[n - 1][m - 1] != -1) {
+            return dp[n - 1][m - 1];
+        }
+
+        if (str1.charAt(n - 1) != str2.charAt(m - 1)) {
+            /*
+                 If the mth character of str1 is not equal to the nth character of str2,
+                 we return the maximum of answers obtained by
+                 1. Ignoring the nth character in the first string
+                 2. Ignoring the mth character in the second string
+            */
+            return dp[n - 1][m - 1] = Math.max(
+                    lcsHelper(str1, n - 1, str2, m, dp),
+                    lcsHelper(str1,  n, str2,m - 1, dp));
+        } else {
+            /*
+                 If the nth character of str1 is equal to the mth character of str2,
+                 this character will be included in the subsequence.
+                 Hence, we will add 1 to the length of lcs obtained
+                 removing the mth character from the first string and the
+                 nth character from the second string.
+             */
+            return dp[n - 1][m - 1] =
+                    1 + lcsHelper(str1, n - 1, str2,  m - 1, dp);
+        }
+    }
+}
+
+
+******************************************************************************************************************************************
+Print welformed Parenthesis
+******************************************************************************************************************************************
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    public static void printWellFormedParanthesis(int n) {
+        List<String> result = new ArrayList<>();
+        generateParenthesis(result, "", n, n);
+        for (String parentheses : result) {
+            System.out.println(parentheses);
+        }
+    }
+    
+    private static void generateParenthesis(List<String> result, String current, int openCount, int closeCount) {
+        if (openCount == 0 && closeCount == 0) {
+            result.add(current);
+            return;
+        }
+        
+        if (openCount > 0) {
+            generateParenthesis(result, current + "(", openCount - 1, closeCount);
+        }
+        
+        if (closeCount > openCount) {
+            generateParenthesis(result, current + ")", openCount, closeCount - 1);
+        }
+    }
+    
+    public static void main(String[] args) {
+        int n = 3;
+        printWellFormedParanthesis(n);
+    }
+}
+
+******************************************************************************************************************************************
+Alien Dictionary
+******************************************************************************************************************************************
+
+
+import java.util.HashMap;
+import java.util.HashSet;
+
+class Ans {
+    char[] ans;
+
+    public Ans() {
+        this.ans = null;
+    }
+}
+
+public class Solution {
+    public static char[] getAlienLanguage(int n, String[] dictionary) {
+        // Find the number of unique characters in the strings.
+        HashSet<Character> set = new HashSet<>();
+        for (String str : dictionary) {
+            for (int i = 0; i < str.length(); i++) {
+                set.add(str.charAt(i));
+            }
+        }
+
+        // No characters present in any of the string.
+        if (set.isEmpty()) {
+            return new char[0];
+        }
+
+        StringBuilder str1 = new StringBuilder();
+        for (Character ch : set) {
+            str1.append(ch);
+        }
+
+        Ans ans = new Ans();
+
+        // Generate permutations.
+        findPermutations(dictionary, str1.toString().toCharArray(), 0, set.size() - 1, ans);
+        return ans.ans;
+    }
+
+    private static void findPermutations(String[] words, char[] str, int start, int end, Ans ans) {
+        if (start == end) {
+            if (satisfiesAlienLanguage(words, str)) {
+                ans.ans = str.clone(); // Use clone() to create a copy of the array
+            }
+        } else {
+            // If the answer hasn't been found yet, we check for other permutations.
+            if (ans.ans == null) {
+                for (int i = start; i <= end; i++) {
+                    // Swapping character at position start and i.
+                    char temp = str[start];
+                    str[start] = str[i];
+                    str[i] = temp;
+
+                    findPermutations(words, str, start + 1, end, ans);
+
+                    // Swapping them back.
+                    temp = str[start];
+                    str[start] = str[i];
+                    str[i] = temp;
+                }
+            }
+        }
+    }
+
+    private static boolean satisfiesAlienLanguage(String[] words, char[] arr) {
+        HashMap<Character, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < arr.length; i++) {
+            if (!map.containsKey(arr[i])) {
+                map.put(arr[i], i);
+            }
+        }
+
+        outer: for (int i = 0; i < words.length - 1; i++) {
+            String currWord = words[i];
+            String nextWord = words[i + 1];
+
+            for (int j = 0; j < Math.min(currWord.length(), nextWord.length()); j++) {
+                if (currWord.charAt(j) != nextWord.charAt(j)) {
+                    if (!map.containsKey(currWord.charAt(j)) || !map.containsKey(nextWord.charAt(j))
+                            || map.get(nextWord.charAt(j)) < map.get(currWord.charAt(j))) {
+                        return false;
+                    } else {
+                        continue outer;
+                    }
+                }
+            }
+
+            if (currWord.length() > nextWord.length()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
+******************************************************************************************************************************************
+Count Inversion
+******************************************************************************************************************************************
+
+
+public class Solution {
+    public static long getInversions(long[] arr, int n) {
+        // Variable to store the total inversions in the array.
+        long totalInversions = 0;
+
+        // Check for each element whether any smaller element is present on right side.
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (arr[i] > arr[j]) {
+                    totalInversions += 1;
+                }
+
+            }
+        }
+        return totalInversions;
+    }
+}
+
+
+******************************************************************************************************************************************
+Magical Pattern
+******************************************************************************************************************************************
+
+
+import java.util.ArrayList;
+
+public class Solution {
+
+    public static ArrayList<ArrayList<Integer>> printMagicalPattern(int n) {
+        
+        // Result.
+    	ArrayList < ArrayList < Integer > > res = new ArrayList<>();
+        
+        // Iterate to add elements.
+        for (int i = -(n - 1); i <= n - 1; ++i) {
+            
+            // Temp array.
+            ArrayList < Integer > temp = new ArrayList<>();
+            for (int j = -(n - 1); j <= n - 1; ++j) {
+                temp.add(Math.min(Math.abs(i), Math.abs(j)) + 1);
+            }
+
+            res.add(temp);
+        }
+        
+        return res;
+    }
+} 
+
+******************************************************************************************************************************************
+
