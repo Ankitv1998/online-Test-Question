@@ -790,4 +790,350 @@ public class Solution {
 } 
 
 ******************************************************************************************************************************************
+******************************************************************************************************************************************
+Triplet sum
+******************************************************************************************************************************************
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int t = scan.nextInt(); // Number of test cases
+        for (int i = 0; i < t; i++) {
+            int n = scan.nextInt(); // Size of the array
+            int[] arr = new int[n];
+            for (int j = 0; j < n; j++) {
+                arr[j] = scan.nextInt(); // Elements of the array
+            }
+            int x = scan.nextInt(); // Target sum
+            int result = tripletSum(arr, x);
+            System.out.println(result);
+        }
+        scan.close();
+    }
+
+    public static int tripletSum(int[] arr, int num) {
+        int count = 0;
+        Arrays.sort(arr);
+        int n = arr.length;
+
+        for (int i = 0; i < n - 2; i++) {
+            int left = i + 1;
+            int right = n - 1;
+
+            while (left < right) {
+                int currentSum = arr[i] + arr[left] + arr[right];
+
+                if (currentSum == num) {
+                    // Counting the frequency of the rightmost duplicate element
+                    if (arr[left] == arr[right]) {
+                        int freq = right - left + 1;
+                        count += (freq * (freq - 1)) / 2;
+                        break;
+                    }
+
+                    int leftCount = 1;
+                    int rightCount = 1;
+
+                    // Counting the frequency of the leftmost duplicate element
+                    while (left + 1 < right && arr[left] == arr[left + 1]) {
+                        left++;
+                        leftCount++;
+                    }
+
+                    // Counting the frequency of the rightmost duplicate element
+                    while (right - 1 > left && arr[right] == arr[right - 1]) {
+                        right--;
+                        rightCount++;
+                    }
+
+                    count += leftCount * rightCount;
+                    left++;
+                    right--;
+                } else if (currentSum < num) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+
+        return count;
+    }
+}
+
+
+******************************************************************************************************************************************
+All Prime Number
+******************************************************************************************************************************************
+// import java.util.Scanner;
+
+// public class Solution {
+// public static void main(String[] args) {
+// Scanner s = new Scanner(System.in);
+// int n = s.nextInt();
+//     for (int i = 2; i <= n; i++) {
+//         boolean prime = true;
+//         for (int j = 2; j < i; j++) {
+//             if (i % j == 0) {
+//                 prime = false;
+//                 break;
+//             }
+//         }
+//         if (prime) {
+//             System.out.println(i);
+//         }
+//     }
+// }
+// }
+
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+Has Path
+
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+import java.util.*;
+
+class Graph {
+    private final int V;
+    private final List<List<Integer>> adjList;
+
+    public Graph(int V) {
+        this.V = V;
+        adjList = new ArrayList<>(V);
+        for (int i = 0; i < V; i++) {
+            adjList.add(new ArrayList<>());
+        }
+    }
+
+    public void addEdge(int v, int w) {
+        adjList.get(v).add(w);
+        adjList.get(w).add(v);
+    }
+
+    public boolean hasPath(int source, int destination) {
+        boolean[] visited = new boolean[V];
+        Queue<Integer> queue = new LinkedList<>();
+
+        visited[source] = true;
+        queue.add(source);
+
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+
+            if (current == destination) {
+                return true;
+            }
+
+            for (int neighbor : adjList.get(current)) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.add(neighbor);
+                }
+            }
+        }
+
+        return false;
+    }
+}
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int V = scanner.nextInt(); // Number of vertices
+        Graph graph = new Graph(V);
+
+        int E = scanner.nextInt(); // Number of edges
+        for (int i = 0; i < E; i++) {
+            int v1 = scanner.nextInt();
+            int v2 = scanner.nextInt();
+            graph.addEdge(v1, v2);
+        }
+
+        int v1 = scanner.nextInt(); // Starting vertex
+        int v2 = scanner.nextInt(); // Ending vertex
+
+        boolean pathExists = graph.hasPath(v1, v2);
+        System.out.println(pathExists);
+
+        scanner.close();
+    }
+
+}
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+Maximum Frequency Number
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+
+import java.util.HashMap;
+public class Solution {
+
+    public static int maxFrequencyNumber(int[] arr){
+        HashMap<Integer,Integer> h=new HashMap<>();
+        for(int i=0;i<arr.length;i++){
+            if(h.containsKey(arr[i])){
+                h.put(arr[i],h.get(arr[i])+1);
+            }
+            else
+                h.put(arr[i],1);
+        }
+        int max=0;
+        int maxKey=Integer.MIN_VALUE;
+        for(int i=0;i<arr.length;i++)
+       
+        {
+            if(h.get(arr[i])>max){
+                max=h.get(arr[i]);
+                maxKey=arr[i];}
+        }
+     
+
+
+        return maxKey ;
+    }
+}
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+Get Compress string
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+public class Solution {
+    public static String getCompressedString(String str) {
+        String ans = "";
+        int count = 1;
+        int n = str.length();
+        
+        for (int i = 0; i < n; i++) {
+            if (i == n - 1 || str.charAt(i) != str.charAt(i + 1)) {
+                ans += str.charAt(i);
+                if (count > 1) {
+                    ans += count;
+                }
+                count = 1;
+            } else {
+                count++;
+            }
+        }
+        
+        return ans;
+    }
+}
+
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+Row wise SUm
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+public class Solution {
+
+	public static void rowWiseSum(int[][] mat) {
+	
+	int n= mat.length;
+	if(n==0)
+	{
+		return;
+	}
+
+	int m=mat[0].length;
+	for(int i=0; i<n;i++)
+	{
+		int rowsum=0;
+
+		for(int j=0; j<m;j++)
+		{
+			rowsum+=mat[i][j];
+		}
+		System.out.print(rowsum+" ");
+	}
+	System.out.println();
+}
+}
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+Otholo Games
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+
+import java.util.Scanner;
+
+public class OthelloBoard {
+    private int board[][];
+    final static int player1Symbol = 1;
+    final static int player2Symbol = 2;
+
+    public OthelloBoard() {
+        board = new int[8][8];
+        board[3][3] = player1Symbol;
+        board[3][4] = player2Symbol;
+        board[4][3] = player2Symbol;
+        board[4][4] = player1Symbol;
+    }
+
+    public void print() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public boolean move(int symbol, int x, int y) {
+        if (x < 0 || y < 0 || x >= 8 || y >= 8 || board[x][y] != 0) {
+            return false;
+        }
+        int[] XDir = { 0, 1, 1, 1, 0, -1, -1, -1 };
+        int[] YDir = { 1, 1, 0, -1, -1, -1, 0, 1 };
+        int count = 0;
+
+        for (int i = 0; i < XDir.length; i++) {
+            int X = x + XDir[i];
+            int Y = y + YDir[i];
+            boolean valid = false;
+
+            while (X >= 0 && Y >= 0 && X < 8 && Y < 8 && board[X][Y] != 0 && board[X][Y] != symbol) {
+                X += XDir[i];
+                Y += YDir[i];
+                valid = true;
+            }
+
+            if (valid && X >= 0 && Y >= 0 && X < 8 && Y < 8 && board[X][Y] == symbol) {
+                X = x + XDir[i];
+                Y = y + YDir[i];
+
+                while (board[X][Y] != symbol) {
+                    board[X][Y] = symbol;
+                    X += XDir[i];
+                    Y += YDir[i];
+                }
+
+                count++;
+            }
+        }
+
+        if (count == 0) {
+            return false;
+        }
+
+        board[x][y] = symbol;
+        return true;
+    }
+
+    
+}
+
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+
+******************************************************************************************************************************************
+******************************************************************************************************************************************
+
 
