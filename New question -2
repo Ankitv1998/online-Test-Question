@@ -1,0 +1,327 @@
+Alien Dictionary
+
+
+import java.util.HashMap;
+import java.util.HashSet;
+
+class Ans {
+    char[] ans;
+
+    public Ans() {
+        this.ans = null;
+    }
+}
+
+public class Solution {
+    public static char[] getAlienLanguage(int n, String[] dictionary) {
+        // Find the number of unique characters in the strings.
+        HashSet<Character> set = new HashSet<>();
+        for (String str : dictionary) {
+            for (int i = 0; i < str.length(); i++) {
+                set.add(str.charAt(i));
+            }
+        }
+
+        // No characters present in any of the string.
+        if (set.isEmpty()) {
+            return new char[0];
+        }
+
+        StringBuilder str1 = new StringBuilder();
+        for (Character ch : set) {
+            str1.append(ch);
+        }
+
+        Ans ans = new Ans();
+
+        // Generate permutations.
+        findPermutations(dictionary, str1.toString().toCharArray(), 0, set.size() - 1, ans);
+        return ans.ans;
+    }
+
+    private static void findPermutations(String[] words, char[] str, int start, int end, Ans ans) {
+        if (start == end) {
+            if (satisfiesAlienLanguage(words, str)) {
+                ans.ans = str.clone(); // Use clone() to create a copy of the array
+            }
+        } else {
+            // If the answer hasn't been found yet, we check for other permutations.
+            if (ans.ans == null) {
+                for (int i = start; i <= end; i++) {
+                    // Swapping character at position start and i.
+                    char temp = str[start];
+                    str[start] = str[i];
+                    str[i] = temp;
+
+                    findPermutations(words, str, start + 1, end, ans);
+
+                    // Swapping them back.
+                    temp = str[start];
+                    str[start] = str[i];
+                    str[i] = temp;
+                }
+            }
+        }
+    }
+
+    private static boolean satisfiesAlienLanguage(String[] words, char[] arr) {
+        HashMap<Character, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < arr.length; i++) {
+            if (!map.containsKey(arr[i])) {
+                map.put(arr[i], i);
+            }
+        }
+
+        outer: for (int i = 0; i < words.length - 1; i++) {
+            String currWord = words[i];
+            String nextWord = words[i + 1];
+
+            for (int j = 0; j < Math.min(currWord.length(), nextWord.length()); j++) {
+                if (currWord.charAt(j) != nextWord.charAt(j)) {
+                    if (!map.containsKey(currWord.charAt(j)) || !map.containsKey(nextWord.charAt(j))
+                            || map.get(nextWord.charAt(j)) < map.get(currWord.charAt(j))) {
+                        return false;
+                    } else {
+                        continue outer;
+                    }
+                }
+            }
+
+            if (currWord.length() > nextWord.length()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
+
+
+Count Inversion
+
+public class Solution {
+    public static long getInversions(long[] arr, int n) {
+        // Variable to store the total inversions in the array.
+        long totalInversions = 0;
+
+        // Check for each element whether any smaller element is present on right side.
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (arr[i] > arr[j]) {
+                    totalInversions += 1;
+                }
+
+            }
+        }
+        return totalInversions;
+    }
+}
+
+Print wellform Parenthesis
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    public static void printWellFormedParanthesis(int n) {
+        List<String> result = new ArrayList<>();
+        generateParenthesis(result, "", n, n);
+        for (String parentheses : result) {
+            System.out.println(parentheses);
+        }
+    }
+    
+    private static void generateParenthesis(List<String> result, String current, int openCount, int closeCount) {
+        if (openCount == 0 && closeCount == 0) {
+            result.add(current);
+            return;
+        }
+        
+        if (openCount > 0) {
+            generateParenthesis(result, current + "(", openCount - 1, closeCount);
+        }
+        
+        if (closeCount > openCount) {
+            generateParenthesis(result, current + ")", openCount, closeCount - 1);
+        }
+    }
+    
+    public static void main(String[] args) {
+        int n = 3;
+        printWellFormedParanthesis(n);
+    }
+}
+
+
+Runner Median
+
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+public class Solution {
+
+    public static void findMedian(int arr[]) {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        for (int i = 0; i < arr.length; i++) {
+            if (maxHeap.isEmpty() || arr[i] < maxHeap.peek()) {
+                maxHeap.offer(arr[i]);
+            } else {
+                minHeap.offer(arr[i]);
+            }
+
+            if (maxHeap.size() - minHeap.size() > 1) {
+                minHeap.offer(maxHeap.poll());
+            } else if (minHeap.size() - maxHeap.size() > 0) {
+                maxHeap.offer(minHeap.poll());
+            }
+
+            if (i % 2 == 0) {
+                System.out.print(maxHeap.peek() + " ");
+            } else {
+                int median = (maxHeap.peek() + minHeap.peek()) / 2;
+                System.out.print(median + " ");
+            }
+        }
+    }
+}
+
+
+
+query and matrix_ solution 1
+
+import java.util.*;
+public class Solution {
+    public static int[] query(int[][] mat, int m, int n, String[] q) {
+        
+        ArrayList<Integer> arr=new ArrayList<>();
+        for (int i = 0; i < q.length; i++) {
+            String query = q[i];
+            int type = query.charAt(0)-'0';
+            char rowOrCol = query.charAt(1);
+            int index =query.charAt(2) - '0';
+            
+            if (type == 1) {
+                if (rowOrCol == 'R') {
+                    flipRow(mat, n, index);
+                } else if (rowOrCol == 'C') {
+                    flipColumn(mat, m, index);
+                }
+            } else if (type == 2) {
+                if (rowOrCol == 'R') {
+                     arr.add(countZerosInRow(mat, n, index));
+                } else if (rowOrCol == 'C') {
+                     arr.add(countZerosInColumn(mat, m, index));
+                }
+            }
+        }
+        int[] result = new int[arr.size()];
+        for(int i=0;i<arr.size();i++)
+        {
+           result[i]=arr.get(i);
+        }
+        return result;
+    }
+    
+    private static void flipRow(int[][] mat, int n, int rowIndex) {
+        for (int j = 0; j < n; j++) {
+            mat[rowIndex][j] = 1 - mat[rowIndex][j];
+        }
+    }
+    
+    private static void flipColumn(int[][] mat, int m, int colIndex) {
+        for (int i = 0; i < m; i++) {
+            mat[i][colIndex] = 1 - mat[i][colIndex];
+        }
+    }
+    
+    private static int countZerosInRow(int[][] mat, int n, int rowIndex) {
+        int count = 0;
+        for (int j = 0; j < n; j++) {
+            if (mat[rowIndex][j] == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    private static int countZerosInColumn(int[][] mat, int m, int colIndex) {
+        int count = 0;
+        for (int i = 0; i < m; i++) {
+            if (mat[i][colIndex] == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
+
+
+ Query and matrix _ solution 2
+
+import java.util.*;
+
+public class Solution {
+    public static int[] query(int[][] mat, int m, int n, String[] q) {
+        ArrayList<Integer> arr = query1(mat, m, n, q);
+        int[] ans = new int[arr.size()];
+        for (int i = 0; i < arr.size(); i++) {
+            ans[i] = arr.get(i);
+        }
+        return ans;
+    }
+
+    public static ArrayList<Integer> query1(int[][] mat, int m, int n, String[] q) {
+        ArrayList<Integer> arr = new ArrayList<>();
+        int qsize = q.length;
+
+        for (int i = 0; i < qsize; i++) {
+            String str = q[i];
+            if (str.charAt(0) == '1') {
+                if (str.charAt(1) == 'R') {
+                    int rowIndex = str.charAt(2) - '0';
+                    for (int j = 0; j < n; j++) {
+                        if (mat[rowIndex][j] == 0)
+                            mat[rowIndex][j] = 1;
+                        else
+                            mat[rowIndex][j] = 0;
+                    }
+                } else {
+                    int colIndex = str.charAt(2) - '0';
+                    for (int j = 0; j < m; j++) {
+                        if (mat[j][colIndex] == 0)
+                            mat[j][colIndex] = 1;
+                        else
+                            mat[j][colIndex] = 0;
+                    }
+                }
+            } else {
+                if (str.charAt(1) == 'R') {
+                    int count = 0;
+                    int rowIndex = str.charAt(2) - '0';
+                    for (int j = 0; j < n; j++) {
+                        if (mat[rowIndex][j] == 0) {
+                            count++;
+                        }
+                    }
+                    arr.add(count);
+                } else {
+                    int count = 0;
+                    int colIndex = str.charAt(2) - '0';
+                    for (int j = 0; j < m; j++) {
+                        if (mat[j][colIndex] == 0) {
+                            count = count + 1;
+                        }
+                    }
+                    arr.add(count);
+                }
+            }
+        }
+        return arr;
+    }
+}
+
+
